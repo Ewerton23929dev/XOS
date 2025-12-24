@@ -39,23 +39,17 @@ static size_t commands_count = 0;
 
 size_t ConsoleParseArgs(char* input, char* argv[]) {
     size_t argc = 0;
-
     while (*input && argc < MAX_ARGS) {
-        // pula espaços
         while (*input == ' ') input++;
         if (*input == '\0') break;
-
-        argv[argc++] = input; // começa do argv[0]
-
-        // acha o fim do argumento
+        argv[argc++] = input;
         while (*input && *input != ' ') input++;
 
         if (*input == ' ') {
-            *input = '\0'; // termina string
+            *input = '\0';
             input++;
         }
     }
-
     return argc;
 }
 
@@ -163,7 +157,7 @@ void ConsolePutRaw(char c)
     VGACursorSetPose(screen_y,screen_x);
 }
 void ConsoleInputChar(char c) {
-    if (cursor_x + prompt_size >= VGA_W) { // quebra de linha automática
+    if (cursor_x + prompt_size >= VGA_W) {
         cursor_x = 0;
         cursor_y++;
         if (screen_y + cursor_y >= VGA_H) return; // limite de tela
@@ -327,6 +321,10 @@ static void CmdShow(size_t argc, const char* argv[])
     ConsolePrint("\nDont have this device/module!");
     return;
 }
+static void CmdOff(size_t argc,const char* argv[])
+{
+    CpuPowerOff();
+}
 void ConsoleInit()
 {
     ConsolePrint("XOS 0.0.98 - Shell Interative\n");
@@ -341,4 +339,5 @@ void ConsoleInit()
     ConsoleRegisterCommand("clear", CmdClear, "Clear the screen");
     ConsoleRegisterCommand("reboot",CmdReboot,"Reboot your system now");
     ConsoleRegisterCommand("show",CmdShow,"Show data machine");
+    ConsoleRegisterCommand("poweroff",CmdOff,"Poweroff your pc!");
 }

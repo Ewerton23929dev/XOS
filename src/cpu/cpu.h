@@ -17,4 +17,5 @@ void CpuCli(void);            // Desabilita interrupções
 void CpuSti(void);            // Habilita interrupções
 void CpuId(uint32_t leaf, CpuIdRegs_t* regs); // executa CPUID
 void CpuPrintVendor(void);
+void CpuPowerOff();
 #endif

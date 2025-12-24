@@ -19,7 +19,10 @@ void outl(uint16_t port, uint32_t val)
 {
     asm volatile ("outl %0, %1" : : "a"(val), "Nd"(port));
 }
-
+void outw(uint16_t port, uint16_t val)
+{
+    __asm__ volatile ("outw %0, %1" : : "a"(val), "Nd"(port));
+}
 uint32_t inl(uint16_t port)
 {
     uint32_t ret;

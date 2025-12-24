@@ -53,3 +53,9 @@ void CpuPrintVendor(void) {
     ConsolePrint(vendor);
     ConsolePrint("\n");
 }
+
+void CpuPowerOff()
+{
+    outw(0x604, 0x2000);
+    for(;;) __asm__("hlt");
+}

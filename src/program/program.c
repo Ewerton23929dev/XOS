@@ -59,6 +59,10 @@ void LoaderProgram(const char* name)
 
 void CmdLoader(size_t argc, const char* argv[])
 {
+    if (argc == 0) {
+        ConsolePrint("\nDont have program!");
+        return;
+    }
     LoaderProgram(argv[0]);
 }
 

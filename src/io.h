@@ -8,6 +8,7 @@ typedef unsigned int size_t;
 void outb(uint16_t port, uint8_t val);
 uint8_t inb(uint16_t port);
 uint32_t inl(uint16_t port);
+void outw(uint16_t port, uint16_t val);
 void outl(uint16_t port, uint32_t val);
 uint32_t align_up(uint32_t x);
 uint32_t align(uint32_t addr, uint32_t align);
