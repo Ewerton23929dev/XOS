@@ -1,0 +1,114 @@
+#!/bin/bash
+
+# =============================
+# Função de checagem
+# =============================
+check_dep() {
+    local cmd="$1"
+    local name="$2"
+    
+    printf "Checking for %s... " "$name"
+    if command -v "$cmd" >/dev/null 2>&1; then
+        echo "ok"
+    else
+        echo "fail"
+        exit 1
+    fi
+    sleep 1
+}
+
+check_header() {
+    local header="$1"
+    printf "Checking for %s... " "$header"
+    echo "#include <$header>" | gcc -E - >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "ok"
+    else
+        echo "fail"
+        exit 1
+    fi
+    sleep 1
+}
+
+# =============================
+# Helper de uso
+# =============================
+usage() {
+    echo "Usage: $0 [--debug] [--qemu-extension] [-h|--help]"
+    echo "  --otimizer           Adds OTIMIZER flag"
+    echo "  --qemu-extension  Adds QEMU_EXTENSION flag"
+    echo "  -h, --help        Shows this help message"
+    exit 0
+}
+
+# =============================
+# Checa dependências
+# =============================
+check_dep gcc gcc
+check_dep nasm nasm
+check_dep dialog dialog
+check_header stdint.h
+
+# =============================
+# Pré-configurações (presets)
+# =============================
+PRESETS=""
+VAR_DEFS=""
+
+if [ $# -gt 0 ]; then
+    # Ignore menu, use args
+    for arg in "$@"; do
+        case "$arg" in
+            --otimizer)
+                PRESETS="$PRESETS -DOTIMIZER"
+                VAR_DEFS="$VAR_DEFS
+OTIMIZER := 1"
+                ;;
+            --qemu-extension)
+                PRESETS="$PRESETS -DQEMU_EXTENSION"
+                VAR_DEFS="$VAR_DEFS
+QEMU_EXTENSION := 1"
+                ;;
+            -h|--help)
+                usage
+                ;;
+            *)
+                echo "Warn: Unknown argument: $arg"
+                exit 1
+                ;;
+        esac
+    done
+else
+    # No arguments, interactive GUI
+    CHOICES=$(dialog --clear --backtitle "Menu Config" \
+        --title "Select options" \
+        --checklist "Use SPACE to toggle, ENTER to accept:" 10 50 3 \
+        OTIMIZER "Enable OTIMIZER flag" off \
+        QEMU_EXTENSION "Enable QEMU_EXTENSION" off \
+        2>&1 >/dev/tty)
+
+    # Build Choices!
+    for choice in $CHOICES; do
+        case $choice in
+            OTIMIZER)
+                PRESETS="$PRESETS -DOTIMIZER -Ofast -finline-functions -funroll-loops -falign-functions=16 -fipa-cp -march=i686"
+                VAR_DEFS="$VAR_DEFS
+OTIMIZER := 1"
+                ;;
+            QEMU_EXTENSION)
+                PRESETS="$PRESETS -DQEMU_EXTENSION"
+                ;;
+        esac
+    done
+    clear
+fi
+
+# =============================
+# Gera config.mk
+# =============================
+cat <<EOL > config.mk
+$VAR_DEFS
+CFLAGS += $PRESETS
+EOL
+
+echo "config.mk generated!"
