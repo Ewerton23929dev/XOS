@@ -3,3 +3,4 @@
 *.elf
 config.mk
 .vscode
+.vscode-ctags
