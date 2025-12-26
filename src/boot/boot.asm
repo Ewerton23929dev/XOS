@@ -7,8 +7,10 @@ header_start:
     dd 0xE85250D6           
     dd 0x0                  
     dd header_end - header_start 
-    dd 0x100000000 - (0xE85250D6 + 0x0 + (header_end - header_start))
-    dd 0                    
+    ;dd 0x100000000 - (0xE85250D6 + 0x0 + (header_end - header_start))
+    dd -(0xE85250D6 + 0 + (header_end - header_start))
+    dw 0
+    dw 0
     dd 8                    
 header_end:
 
@@ -30,9 +32,8 @@ _start:
     ; Verifica magic Multiboot2
     cmp eax, 0x36D76289
     jne no_module
-    
-    ; Passa MBI para kernel_main
-    mov esi, ebx            ; MBI pointer em ESI (param C)
+    test ebx, ebx
+    jz mb2_fail
     
     cli
     lgdt [gdt_descriptor]
@@ -56,11 +57,16 @@ flush_cs:
     shr ecx, 2              ; /4 para DWORDs
     xor eax, eax
     rep stosd
+    push ebx
     call kernel_main        ; Chama C kernel
     jmp halt
 
 no_module:
 halt:
+    cli
+    hlt
+    jmp halt
+mb2_fail:
     cli
     hlt
     jmp halt

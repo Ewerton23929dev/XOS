@@ -17,4 +17,5 @@ void GzmInit(void);
 struct GzmZone_t* GzmCreateZone(int id, uint32_t size, uint32_t align_v);
 int GzmGetZone(int id, struct GzmZone_t* out);
 uint32_t GzmGetCountZones();
+uint32_t GzmGetTotalUsed();
 #endif

@@ -1,9 +1,9 @@
 ENTRY(_start)
 
 SECTIONS {
-    . = 1M;  /* Ser nao for 1M a MMU quebra */
     kernel_start = .;
-    .multiboot :
+    . = 1M;  /* Ser nao for 1M a MMU quebra */
+    .multiboot ALIGN(8) :
     {
         KEEP(*(.multiboot2))
     }

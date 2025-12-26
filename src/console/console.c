@@ -237,6 +237,14 @@ void ConsoleTrace()
         return;
     }
     if (tecla == KEY_ENTER){
+        if (msg_index == 0) {
+            SpinUnlock(&console_lock);
+            return;
+        }
+        if (msg_buffer[0] == 0 && msg_buffer[0] == ' ') {
+            SpinUnlock(&console_lock);
+            return;
+        }
         VGACursorVisible(0);
         msg_buffer[msg_index] = '\0'; // delimitador
         ConsoleAddHistory(msg_buffer);
