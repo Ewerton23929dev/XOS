@@ -20,6 +20,8 @@ void KmallocinitBoot()
     heap_brk = heap_base;
     heap_limit = heap_base + z->size;
 }
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(KmallocinitBoot,10);
 
 void* kmalloc(uint32_t size)
 {

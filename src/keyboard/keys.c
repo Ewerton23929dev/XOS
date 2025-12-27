@@ -132,3 +132,6 @@ void KeyboardInit()
     idt_set_gate(0x21,keyboard_handler,0x8E);
     PicUnmaskIrq(1);
 }
+
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(KeyboardInit,60);

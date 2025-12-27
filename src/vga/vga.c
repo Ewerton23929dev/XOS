@@ -326,3 +326,6 @@ void VgaInit()
     RegistreQuest(&vga);
     VGACursorInit();
 }
+
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(VgaInit,70);

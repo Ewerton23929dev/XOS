@@ -32,3 +32,6 @@ void idt_init(void) {
     idt_set_gate(6,invalid_opcode_handler,0x08E);
     asm volatile("lidt %0" : : "m"(idtr));
 }
+
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(idt_init,0);

@@ -349,3 +349,6 @@ void ConsoleInit()
     ConsoleRegisterCommand("show",CmdShow,"Show data machine");
     ConsoleRegisterCommand("poweroff",CmdOff,"Poweroff your pc!");
 }
+
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(ConsoleInit,80);

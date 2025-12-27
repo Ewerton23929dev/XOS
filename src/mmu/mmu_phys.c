@@ -18,6 +18,8 @@ void MmuPhysInit(void)
         mmu_zone->flags |= GZM_ZONE_FIXED;
     }
 }
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(MmuPhysInit,20);
 
 void* MmuAllocPage(void)
 {

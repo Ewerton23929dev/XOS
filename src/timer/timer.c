@@ -84,3 +84,6 @@ void TimerInit()
     idt_set_gate(0x20, pit_timer_handler, 0x8E); 
     PicUnmaskIrq(0);
 }
+
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(TimerInit,50);

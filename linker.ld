@@ -35,5 +35,12 @@ SECTIONS {
         . += 256K;
         gzm_end = .;
     }
+    .initcalls :
+    {
+        __initcalls_start = .;
+        KEEP(*(.initcalls))
+        __initcalls_end = .;
+    }
+
     kernel_end = .;
 }

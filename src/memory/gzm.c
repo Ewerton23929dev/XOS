@@ -122,6 +122,8 @@ void GzmInit()
     gzm_last_offset = (uint8_t*)align((uintptr_t)GZM_END, 8);
     gzm_flag_init = 1;
 }
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(GzmInit,5);
 
 static struct GzmZone_t* __NoLockGzmGetZone(int id)
 {

@@ -70,3 +70,6 @@ void ProgramInit()
 {
     ConsoleRegisterCommand("load",CmdLoader,"Load simples programs");
 }
+
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(ProgramInit,90);

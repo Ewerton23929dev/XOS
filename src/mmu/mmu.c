@@ -35,7 +35,7 @@ void page_fault(struct isr_context_t* ctx) {
     panic("PAGE FAULT!");
 }
 
-#define ID_MAP_MB 4 // minimo 4MB e maximo 16MB
+#define ID_MAP_MB 7 // minimo 4MB e maximo 16MB
 uint32_t* page_directory = NULL;
 extern void isr_page_fault();
 void MmuInit()
@@ -70,7 +70,8 @@ void MmuInit()
     load_cr3((uint32_t)page_directory);
     enable_paging();
 }
-
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(MmuInit,40);
 void MapRegion(uint32_t virt_addr,uint32_t phys_addr,PageFlags flags)
 {
     uint32_t mmu_flags = 0;

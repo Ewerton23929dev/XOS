@@ -21,7 +21,7 @@ NASMFLAGS  += -f elf32 -Isrc/program/
 # =============================
 # Seções de código
 # =============================
-SECTIONS_C   := src src/kernel src/idt src/mmu src/memory src/timer src/keyboard src/vga src/locks src/mouse src/boot/grub src/console src/program src/cpu
+SECTIONS_C   := src src/kernel src/idt src/mmu src/memory src/timer src/keyboard src/vga src/locks src/mouse src/boot/grub src/boot/bootstrap src/console src/program src/cpu
 SECTIONS_ASM := src/boot src/idt src/program
 
 # Encontra todos os arquivos automaticamente

@@ -26,7 +26,8 @@ void MemorySlabInit()
     slab_zone = GzmCreateZone(SLAB_ID,SLAB_SIZE,SLAB_ALIGN);
     slab_offset = slab_zone->memory_phy;
 }
-
+#include <boot/bootstrap/bootstrap.h>
+REGISTER_ORDER(MemorySlabInit,30);
 void* SlabAlloc(uint32_t size) {
     if (!slab_zone) panic("Slab not init");
     for (uint32_t i = 0; i < slab_alloc_count; i++) {
