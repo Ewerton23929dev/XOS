@@ -4,6 +4,8 @@
 #include <memory/gzm.h>
 #include <timer/timer.h>
 #include <mmu/mmu.h>
+#include <vga/vga.h>
+#include <boot/grub/grub.h>
 #include <boot/bootstrap/bootstrap.h>
 
 void kernel_main(void* info_addr)
